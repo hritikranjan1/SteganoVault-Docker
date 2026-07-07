@@ -8,6 +8,13 @@ app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24).hex())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    return response
+
 @app.route("/")
 def index():
     return render_template("index.html")
