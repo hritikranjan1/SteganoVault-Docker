@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import os
 import logging
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24).hex())
@@ -18,6 +19,14 @@ def add_security_headers(response):
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/health")
+def health_check():
+    return jsonify({
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "version": "1.0.0"
+    }), 200
 
 if __name__ == "__main__":
     logger.info("Starting SteganoVault...")
