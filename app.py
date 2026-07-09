@@ -1,33 +1,28 @@
-from flask import Flask, render_template, jsonify
+import mysql.connector
+from mysql.connector import pooling
 import os
-import logging
-from datetime import datetime
 
-app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24).hex())
+MYSQL_CONFIG = {
+    'host': os.environ.get('MYSQL_HOST', 'mysql'),
+    'port': int(os.environ.get('MYSQL_PORT', 3306)),
+    'user': os.environ.get('MYSQL_USER', 'stegano'),
+    'password': os.environ.get('MYSQL_PASSWORD', 'stegano123'),
+    'database': os.environ.get('MYSQL_DATABASE', 'steganovault'),
+    'charset': 'utf8mb4',
+    'autocommit': True,
+}
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+try:
+    db_pool = pooling.MySQLConnectionPool(
+        pool_name="stegano_pool",
+        pool_size=10,
+        pool_reset_session=True,
+        **MYSQL_CONFIG
+    )
+except Exception:
+    db_pool = None
 
-@app.after_request
-def add_security_headers(response):
-    response.headers['X-Content-Type-Options'] = 'nosniff'
-    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
-    response.headers['X-XSS-Protection'] = '1; mode=block'
-    return response
-
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-@app.route("/health")
-def health_check():
-    return jsonify({
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
-        "version": "1.0.0"
-    }), 200
-
-if __name__ == "__main__":
-    logger.info("Starting SteganoVault...")
-    app.run(host="0.0.0.0", port=5000)
+def get_db():
+    if db_pool:
+        return db_pool.get_connection()
+    return mysql.connector.connect(**MYSQL_CONFIG)
