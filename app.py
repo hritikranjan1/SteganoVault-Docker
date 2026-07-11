@@ -49,3 +49,14 @@ def encode_image(input_path, message, password, watermark=None):
     output_path = input_path.replace(".png", "_encoded.png")
     encoded_img.save(output_path, format="PNG", quality=95)
     return output_path
+
+def decode_image(input_path, password):
+    extracted_message = lsb.reveal(input_path)
+    if extracted_message and ":" in extracted_message:
+        parts = extracted_message.split(":")
+        if len(parts) == 3:
+            stored_password, stored_message = parts[1], parts[2]
+        else:
+            stored_password, stored_message = parts[0], parts[1]
+        return stored_message if stored_password == password else "Incorrect password!"
+    return extracted_message
