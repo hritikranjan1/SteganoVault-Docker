@@ -60,3 +60,17 @@ def decode_image(input_path, password):
             stored_password, stored_message = parts[0], parts[1]
         return stored_message if stored_password == password else "Incorrect password!"
     return extracted_message
+
+# ============================================
+# TEXT FILE STEGANOGRAPHY (Zero-width chars)
+# ============================================
+def encode_txt(input_path, message, password):
+    with open(input_path, "r", encoding="utf-8") as f:
+        original = f.read()
+    secret_message = f"{password}:{message}" if password else message
+    binary_data = ''.join(format(ord(c), '08b') for c in secret_message)
+    encoded = ''.join("\u200B" if b == "0" else "\u200D" for b in binary_data)
+    output_path = input_path.replace(".", "_encoded.")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(original + "\n" + encoded)
+    return output_path
