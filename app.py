@@ -74,3 +74,15 @@ def encode_txt(input_path, message, password):
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(original + "\n" + encoded)
     return output_path
+
+def decode_txt(input_path, password):
+    with open(input_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    binary_data = ''.join("0" if c == "\u200B" else "1" for c in content if c in ["\u200B", "\u200D"])
+    if not binary_data:
+        return "No hidden message found!"
+    extracted = ''.join(chr(int(binary_data[i:i+8], 2)) for i in range(0, len(binary_data) - len(binary_data) % 8, 8))
+    if extracted and ":" in extracted:
+        stored_password, stored_message = extracted.split(":", 1)
+        return stored_message if stored_password == password else "Incorrect password!"
+    return extracted
