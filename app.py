@@ -86,3 +86,20 @@ def decode_txt(input_path, password):
         stored_password, stored_message = extracted.split(":", 1)
         return stored_message if stored_password == password else "Incorrect password!"
     return extracted
+
+# ============================================
+# PDF STEGANOGRAPHY (Metadata)
+# ============================================
+from PyPDF2 import PdfReader, PdfWriter
+
+def encode_pdf(input_path, message, password):
+    reader = PdfReader(input_path)
+    writer = PdfWriter()
+    for page in reader.pages:
+        writer.add_page(page)
+    secret_message = f"{password}:{message}" if password else message
+    writer.add_metadata({"/Message": secret_message})
+    output_path = input_path.replace(".", "_encoded.")
+    with open(output_path, "wb") as f:
+        writer.write(f)
+    return output_path
