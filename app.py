@@ -103,3 +103,12 @@ def encode_pdf(input_path, message, password):
     with open(output_path, "wb") as f:
         writer.write(f)
     return output_path
+
+def decode_pdf(input_path, password):
+    reader = PdfReader(input_path)
+    metadata = reader.metadata
+    extracted = metadata.get("/Message", "") if metadata else ""
+    if extracted and ":" in extracted:
+        stored_password, stored_message = extracted.split(":", 1)
+        return stored_message if stored_password == password else "Incorrect password!"
+    return extracted
