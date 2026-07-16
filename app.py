@@ -112,3 +112,18 @@ def decode_pdf(input_path, password):
         stored_password, stored_message = extracted.split(":", 1)
         return stored_message if stored_password == password else "Incorrect password!"
     return extracted
+
+# ============================================
+# DOCX STEGANOGRAPHY (Hidden Text)
+# ============================================
+from docx import Document
+
+def encode_docx(input_path, message, password):
+    doc = Document(input_path)
+    secret_message = f"{password}:{message}" if password else message
+    paragraph = doc.add_paragraph()
+    run = paragraph.add_run(secret_message)
+    run.font.hidden = True
+    output_path = input_path.replace(".", "_encoded.")
+    doc.save(output_path)
+    return output_path
