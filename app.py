@@ -127,3 +127,15 @@ def encode_docx(input_path, message, password):
     output_path = input_path.replace(".", "_encoded.")
     doc.save(output_path)
     return output_path
+
+def decode_docx(input_path, password):
+    doc = Document(input_path)
+    extracted = ""
+    for para in doc.paragraphs:
+        for run in para.runs:
+            if run.font.hidden:
+                extracted += run.text
+    if extracted and ":" in extracted:
+        stored_password, stored_message = extracted.split(":", 1)
+        return stored_message if stored_password == password else "Incorrect password!"
+    return extracted
