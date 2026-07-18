@@ -139,3 +139,43 @@ def decode_docx(input_path, password):
         stored_password, stored_message = extracted.split(":", 1)
         return stored_message if stored_password == password else "Incorrect password!"
     return extracted
+
+# ============================================
+# ENCODE ROUTE
+# ============================================
+from flask import request, send_file
+import tempfile, shutil, time, uuid, json, hashlib
+from werkzeug.utils import secure_filename
+
+@app.route("/encode", methods=["POST"])
+def encode():
+    uploaded_file = request.files['file']
+    message = request.form.get("message")
+    password = request.form.get("password", "")
+    filename = secure_filename(uploaded_file.filename)
+    temp_dir = tempfile.mkdtemp()
+    file_path = os.path.join(temp_dir, filename)
+    uploaded_file.save(file_path)
+    ext = os.path.splitext(file_path)[1].lower()
+    output_file = None
+    start = time.time()
+    if ext in [".png", ".jpg", ".jpeg"]:
+        output_file = encode_image(file_path, message, password)
+    elif ext == ".txt":
+        output_file = encode_txt(file_path, message, password)
+    elif ext == ".pdf":
+        output_file = encode_pdf(file_path, message, password)
+    elif ext == ".docx":
+        output_file = encode_docx(file_path, message, password)
+    if output_file and os.path.exists(output_file):
+        with open(output_file, "rb") as f:
+            checksum = hashlib.sha256(f.read()).hexdigest()
+        response = send_file(output_file, as_attachment=True, download_name=os.path.basename(output_file))
+        response.headers["X-Response-Data"] = json.dumps({
+            "status": "success",
+            "filename": os.path.basename(output_file),
+            "checksum": checksum,
+            "processing_time": round(time.time() - start, 2)
+        })
+        return response
+    return jsonify({"error": "Unsupported format"}), 400
