@@ -179,3 +179,31 @@ def encode():
         })
         return response
     return jsonify({"error": "Unsupported format"}), 400
+
+# ============================================
+# DECODE ROUTE
+# ============================================
+@app.route("/decode", methods=["POST"])
+def decode():
+    uploaded_file = request.files['file']
+    password = request.form.get("password", "")
+    filename = secure_filename(uploaded_file.filename)
+    temp_dir = tempfile.mkdtemp()
+    file_path = os.path.join(temp_dir, filename)
+    uploaded_file.save(file_path)
+    ext = os.path.splitext(file_path)[1].lower()
+    decoded_message = None
+    start = time.time()
+    if ext in [".png", ".jpg", ".jpeg"]:
+        decoded_message, _ = decode_image(file_path, password)
+    elif ext == ".txt":
+        decoded_message = decode_txt(file_path, password)
+    elif ext == ".pdf":
+        decoded_message = decode_pdf(file_path, password)
+    elif ext == ".docx":
+        decoded_message = decode_docx(file_path, password)
+    return jsonify({
+        "status": "success",
+        "message": decoded_message,
+        "processing_time": round(time.time() - start, 2)
+    })
