@@ -207,3 +207,26 @@ def decode():
         "message": decoded_message,
         "processing_time": round(time.time() - start, 2)
     })
+
+# ============================================
+# AUTHENTICATION
+# ============================================
+import bcrypt
+import random
+import string
+from functools import wraps
+
+def hash_password(password):
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+def check_password(password, hashed):
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
+
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        from flask import session
+        if 'user_id' not in session:
+            return jsonify({'error': 'Authentication required'}), 401
+        return f(*args, **kwargs)
+    return wrapper
