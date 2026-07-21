@@ -230,3 +230,27 @@ def login_required(f):
             return jsonify({'error': 'Authentication required'}), 401
         return f(*args, **kwargs)
     return wrapper
+
+@app.route('/auth/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    if not data or not data.get('email') or not data.get('password') or not data.get('name'):
+        return jsonify({'error': 'Name, email, password required'}), 400
+    email = data['email'].lower()
+    if len(data['password']) < 8:
+        return jsonify({'error': 'Password must be at least 8 characters'}), 400
+    hashed = hash_password(data['password'])
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
+            (data['name'], email, hashed)
+        )
+        conn.commit()
+        return jsonify({'message': 'Registered successfully'}), 200
+    except mysql.connector.IntegrityError:
+        return jsonify({'error': 'Email already exists'}), 400
+    finally:
+        cursor.close()
+        conn.close()
