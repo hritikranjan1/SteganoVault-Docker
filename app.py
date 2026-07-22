@@ -254,3 +254,26 @@ def register():
     finally:
         cursor.close()
         conn.close()
+
+from flask import session
+
+@app.route('/auth/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data['email'].lower()
+    password = data['password']
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+    user = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    if not check_password(password, user['password']):
+        return jsonify({'error': 'Invalid credentials'}), 401
+    session['user_id'] = user['email']
+    return jsonify({
+        'message': 'Login successful',
+        'user': {'email': user['email'], 'name': user['name']}
+    }), 200
