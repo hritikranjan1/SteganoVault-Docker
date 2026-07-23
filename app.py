@@ -277,3 +277,14 @@ def login():
         'message': 'Login successful',
         'user': {'email': user['email'], 'name': user['name']}
     }), 200
+
+@app.route('/auth/logout', methods=['POST'])
+def logout():
+    session.pop('user_id', None)
+    return jsonify({'message': 'Logged out'}), 200
+
+@app.route('/auth/status', methods=['GET'])
+def auth_status():
+    if 'user_id' in session:
+        return jsonify({'authenticated': True, 'user': {'email': session['user_id']}}), 200
+    return jsonify({'authenticated': False}), 200
