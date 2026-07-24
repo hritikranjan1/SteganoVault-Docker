@@ -288,3 +288,19 @@ def auth_status():
     if 'user_id' in session:
         return jsonify({'authenticated': True, 'user': {'email': session['user_id']}}), 200
     return jsonify({'authenticated': False}), 200
+
+# ============================================
+# REVIEWS API
+# ============================================
+@app.route('/api/reviews', methods=['GET'])
+def get_reviews():
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM reviews WHERE verified = TRUE ORDER BY timestamp DESC")
+    reviews = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    for r in reviews:
+        if r.get('timestamp'):
+            r['timestamp'] = r['timestamp'].isoformat()
+    return jsonify(reviews)
