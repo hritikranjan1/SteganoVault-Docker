@@ -304,3 +304,18 @@ def get_reviews():
         if r.get('timestamp'):
             r['timestamp'] = r['timestamp'].isoformat()
     return jsonify(reviews)
+
+@app.route('/api/reviews', methods=['POST'])
+@login_required
+def submit_review():
+    data = request.get_json()
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO reviews (user_email, name, text, rating, verified) VALUES (%s, %s, %s, %s, TRUE)",
+        (session['user_id'], data['name'], data['text'], int(data['rating']))
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'message': 'Review submitted'}), 200
