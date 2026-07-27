@@ -2,10 +2,20 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>SteganoVault</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteganoVault - Secret Hiding Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body class="flex flex-col items-center">
+    <nav class="w-full flex justify-between p-4">
+        <select id="theme-toggle">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+        </select>
+        <button id="authBtn"><i class="fas fa-user"></i> <span id="authStatus">Login</span></button>
+    </nav>
     <h1>🔐 SteganoVault</h1>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
