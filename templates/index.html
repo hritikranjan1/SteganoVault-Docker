@@ -2,21 +2,31 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SteganoVault - Secret Hiding Hub</title>
+    <title>SteganoVault</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="flex flex-col items-center">
-    <nav class="w-full flex justify-between p-4">
-        <select id="theme-toggle">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-        </select>
-        <button id="authBtn"><i class="fas fa-user"></i> <span id="authStatus">Login</span></button>
-    </nav>
-    <h1>🔐 SteganoVault</h1>
+<body>
+    <nav><select id="theme-toggle"></select><button id="authBtn">Login</button></nav>
+    <div id="encode-decode" class="bg-[var(--card-bg)] p-6 rounded-lg">
+        <h2>Encode / Decode</h2>
+        <div id="drop-area" class="text-center">
+            <p>📂 Drag & Drop your file here</p>
+            <input type="file" id="fileInput" class="hidden">
+            <button onclick="document.getElementById('fileInput').click()">Select File</button>
+            <div id="fileName"></div>
+        </div>
+        <label>Enter Message:</label>
+        <input type="text" id="messageInput">
+        <label>Optional Password:</label>
+        <input type="password" id="passwordInput">
+        <button id="encodeBtnReady" class="bg-green-500">🔒 Encode</button>
+        <button id="decodeBtnReady" class="bg-red-500">🔓 Decode</button>
+        <div id="output"></div>
+        <div id="decodedOutputContainer" class="hidden">
+            <div id="decodedOutput"></div>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
