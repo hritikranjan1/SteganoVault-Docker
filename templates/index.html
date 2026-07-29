@@ -8,24 +8,21 @@
 </head>
 <body>
     <nav><select id="theme-toggle"></select><button id="authBtn">Login</button></nav>
-    <div id="encode-decode" class="bg-[var(--card-bg)] p-6 rounded-lg">
+    <div id="encode-decode">
         <h2>Encode / Decode</h2>
-        <div id="drop-area" class="text-center">
-            <p>📂 Drag & Drop your file here</p>
+        <div id="drop-area">
             <input type="file" id="fileInput" class="hidden">
-            <button onclick="document.getElementById('fileInput').click()">Select File</button>
+            <button>Select File</button>
             <div id="fileName"></div>
         </div>
-        <label>Enter Message:</label>
+        <div id="previewBefore" class="hidden"><p>Before:</p><img class="max-h-40"></div>
+        <div id="previewAfter" class="hidden"><p>After:</p><img class="max-h-40"></div>
         <input type="text" id="messageInput">
-        <label>Optional Password:</label>
         <input type="password" id="passwordInput">
-        <button id="encodeBtnReady" class="bg-green-500">🔒 Encode</button>
-        <button id="decodeBtnReady" class="bg-red-500">🔓 Decode</button>
+        <button id="encodeBtnReady">Encode</button>
+        <button id="decodeBtnReady">Decode</button>
         <div id="output"></div>
-        <div id="decodedOutputContainer" class="hidden">
-            <div id="decodedOutput"></div>
-        </div>
+        <div id="decodedOutputContainer" class="hidden"><div id="decodedOutput"></div></div>
     </div>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
