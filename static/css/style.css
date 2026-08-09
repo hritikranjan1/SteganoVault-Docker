@@ -1,0 +1,21 @@
+[data-theme="dark"] {
+    --bg-color: #1a202c;
+    --text-color: #e2e8f0;
+    --card-bg: #2d3748;
+    --button-bg: #4a5568;
+    --hover-bg: #718096;
+    --message-bg: #2d3748;
+    --scrollbar-bg: #4a5568;
+    --glow-color: #00ffcc;
+    --motion-bg: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+}
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Courier New', monospace;
+    overflow-x: hidden;
+}
