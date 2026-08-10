@@ -19,3 +19,26 @@ body {
     font-family: 'Courier New', monospace;
     overflow-x: hidden;
 }
+
+[data-theme="light"] {
+    --bg-color: #f8fafc;
+    --text-color: #1a202c;
+    --card-bg: #ffffff;
+    --button-bg: #4299e1;
+    --hover-bg: #3182ce;
+    --glow-color: #ff6b6b;
+}
+
+[data-theme="cyberpunk"] {
+    --bg-color: #0d0b1e;
+    --text-color: #00ffcc;
+    --card-bg: #1a1433;
+    --button-bg: #ff007a;
+    --glow-color: #ff00ff;
+}
+
+[data-theme="retro-spy"] {
+    --bg-color: #2b2b2b;
+    --text-color: #f5f5f5;
+    --glow-color: #ffd700;
+}
