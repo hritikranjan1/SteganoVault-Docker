@@ -42,3 +42,21 @@ body {
     --text-color: #f5f5f5;
     --glow-color: #ffd700;
 }
+
+[data-theme="neon-noir"] {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --glow-color: #00e5ff;
+}
+
+[data-theme="vaporwave"] {
+    --bg-color: #ff71ce;
+    --text-color: #01cdfe;
+    --glow-color: #fffb96;
+}
+
+[data-theme="hacker-terminal"] {
+    --bg-color: #0a0a0a;
+    --text-color: #00ff00;
+    --glow-color: #00ff00;
+}
