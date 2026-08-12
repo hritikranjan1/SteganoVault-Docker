@@ -60,3 +60,27 @@ body {
     --text-color: #00ff00;
     --glow-color: #00ff00;
 }
+
+[data-theme="steampunk"] {
+    --bg-color: #2c1e15;
+    --text-color: #d4a017;
+    --glow-color: #ffcc80;
+}
+
+[data-theme="cosmic-galaxy"] {
+    --bg-color: #0d1b2a;
+    --text-color: #e0e0ff;
+    --glow-color: #ff00ff;
+}
+
+[data-theme="minimal-zen"] {
+    --bg-color: #f0f0f0;
+    --text-color: #333333;
+    --glow-color: #66ccff;
+}
+
+[data-theme="glitchcore"] {
+    --bg-color: #000000;
+    --text-color: #ff0000;
+    --glow-color: #ff00ff;
+}
