@@ -101,3 +101,19 @@ body {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+/* Glow Effects */
+.glow-effect {
+    box-shadow: 0 0 10px var(--glow-color);
+    transition: box-shadow 0.3s ease;
+}
+.glow-effect:hover {
+    box-shadow: 0 0 20px var(--glow-color);
+}
+.motion-button {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.motion-button:hover {
+    transform: scale(1.05);
+    background-color: var(--hover-bg);
+}
