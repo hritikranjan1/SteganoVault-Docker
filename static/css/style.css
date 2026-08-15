@@ -117,3 +117,16 @@ body {
     transform: scale(1.05);
     background-color: var(--hover-bg);
 }
+
+/* Drop Area */
+#drop-area {
+    border: 3px dashed var(--scrollbar-bg);
+    border-radius: 15px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+#drop-area.dragover {
+    background-color: var(--hover-bg);
+    border-color: var(--glow-color);
+    transform: scale(1.02);
+}
