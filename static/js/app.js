@@ -26,3 +26,24 @@ if (dropArea && fileInput) {
         }
     });
 }
+
+// File Preview
+if (fileInput) {
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files[0]) {
+            var file = fileInput.files[0];
+            if (fileName) fileName.textContent = file.name;
+            if (file.type.startsWith('image/')) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var preview = document.querySelector('#previewBefore img');
+                    if (preview) {
+                        preview.src = e.target.result;
+                        document.getElementById('previewBefore').classList.remove('hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+}
