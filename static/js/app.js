@@ -47,3 +47,31 @@ if (fileInput) {
         }
     });
 }
+
+// Encode Function
+var encodeBtn = document.getElementById('encodeBtnReady');
+if (encodeBtn) {
+    encodeBtn.addEventListener('click', function() {
+        var file = fileInput.files[0];
+        var message = document.getElementById('messageInput').value;
+        if (!file || !message) {
+            alert('Select file and enter message');
+            return;
+        }
+        var formData = new FormData();
+        formData.append('file', file);
+        formData.append('message', message);
+        formData.append('password', document.getElementById('passwordInput').value);
+        fetch('/encode', { method: 'POST', body: formData })
+            .then(function(r) { return r.blob(); })
+            .then(function(blob) {
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'encoded_file';
+                a.click();
+                document.getElementById('output').innerHTML = '<p class="text-green-500">✅ Encoded!</p>';
+            })
+            .catch(function(e) { console.error(e); });
+    });
+}
