@@ -75,3 +75,25 @@ if (encodeBtn) {
             .catch(function(e) { console.error(e); });
     });
 }
+
+// Decode Function
+var decodeBtn = document.getElementById('decodeBtnReady');
+if (decodeBtn) {
+    decodeBtn.addEventListener('click', function() {
+        var file = fileInput.files[0];
+        if (!file) {
+            alert('Select a file');
+            return;
+        }
+        var formData = new FormData();
+        formData.append('file', file);
+        formData.append('password', document.getElementById('passwordInput').value);
+        fetch('/decode', { method: 'POST', body: formData })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                document.getElementById('decodedOutput').textContent = data.message;
+                document.getElementById('decodedOutputContainer').classList.remove('hidden');
+            })
+            .catch(function(e) { console.error(e); });
+    });
+}
