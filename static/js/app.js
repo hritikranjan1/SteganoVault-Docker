@@ -97,3 +97,18 @@ if (decodeBtn) {
             .catch(function(e) { console.error(e); });
     });
 }
+
+// Stealth Score
+var stealthScore = 0;
+function updateStealthScore(points) {
+    stealthScore += points;
+    var el = document.getElementById('stealth-score');
+    if (el) el.textContent = stealthScore;
+    var badges = document.getElementById('badges');
+    if (badges && stealthScore >= 10 && badges.innerHTML.indexOf('Rookie') === -1) {
+        badges.innerHTML += '<span class="badge">Rookie Spy</span>';
+    }
+    if (badges && stealthScore >= 50 && badges.innerHTML.indexOf('Codebreaker') === -1) {
+        badges.innerHTML += '<span class="badge">Codebreaker</span>';
+    }
+}
