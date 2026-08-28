@@ -112,3 +112,22 @@ function updateStealthScore(points) {
         badges.innerHTML += '<span class="badge">Codebreaker</span>';
     }
 }
+
+// Game
+var gameActive = false;
+var gameScore = 0;
+var startBtn = document.getElementById('start-game');
+var gameTarget = document.getElementById('game-target');
+if (startBtn) {
+    startBtn.addEventListener('click', function() {
+        if (gameActive) return;
+        gameActive = true;
+        gameScore = 0;
+        startBtn.disabled = true;
+        setTimeout(function() {
+            gameActive = false;
+            startBtn.disabled = false;
+            alert('Game over! Score: ' + gameScore);
+        }, 10000);
+    });
+}
