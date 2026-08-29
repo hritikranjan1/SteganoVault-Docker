@@ -131,3 +131,16 @@ if (startBtn) {
         }, 10000);
     });
 }
+
+// Modals
+var modals = document.querySelectorAll('.modal');
+document.querySelectorAll('.close').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        modals.forEach(function(m) { m.style.display = 'none'; });
+    });
+});
+window.addEventListener('click', function(e) {
+    modals.forEach(function(m) {
+        if (e.target === m) m.style.display = 'none';
+    });
+});
