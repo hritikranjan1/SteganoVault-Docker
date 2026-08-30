@@ -144,3 +144,19 @@ window.addEventListener('click', function(e) {
         if (e.target === m) m.style.display = 'none';
     });
 });
+
+// Auth
+var authBtn = document.getElementById('authBtn');
+var authStatus = document.getElementById('authStatus');
+if (authBtn) {
+    authBtn.addEventListener('click', function() {
+        if (authStatus && authStatus.textContent === 'Logout') {
+            fetch('/auth/logout', { method: 'POST' }).then(function() {
+                authStatus.textContent = 'Login';
+            });
+        } else {
+            var modal = document.getElementById('authModal');
+            if (modal) modal.style.display = 'block';
+        }
+    });
+}
