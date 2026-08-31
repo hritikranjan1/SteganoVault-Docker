@@ -160,3 +160,19 @@ if (authBtn) {
         }
     });
 }
+
+// Contact Form
+var contactForm = document.getElementById('contactForm');
+if (contactForm && typeof emailjs !== 'undefined') {
+    emailjs.init("jocUFhKyehMFmQgYW");
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        emailjs.send('service_jkj2tfh', 'template_62s2pkv', {
+            from_name: document.getElementById('name').value,
+            from_email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+        }).then(function() {
+            document.getElementById('confirmationMessage').classList.remove('hidden');
+        });
+    });
+}
