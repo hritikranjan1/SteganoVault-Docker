@@ -176,3 +176,17 @@ if (contactForm && typeof emailjs !== 'undefined') {
         });
     });
 }
+
+// Load Reviews
+fetch('/api/reviews').then(function(r) { return r.json(); }).then(function(reviews) {
+    var container = document.getElementById('userReviewsContainer');
+    if (!container) return;
+    if (reviews.length === 0) {
+        container.innerHTML = '<p class="text-center">No reviews yet</p>';
+        return;
+    }
+    container.innerHTML = reviews.map(function(r) {
+        var stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        return '<div class="testimonial"><div class="rating-stars">' + stars + '</div><p>' + r.text + '</p><p>- ' + r.name + '</p></div>';
+    }).join('');
+});
