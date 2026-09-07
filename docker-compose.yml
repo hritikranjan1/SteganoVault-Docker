@@ -21,6 +21,38 @@ services:
       timeout: 5s
       retries: 10
 
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: steganovault-web
+    restart: unless-stopped
+    expose:
+      - "5000"
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-change-me}
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-steganovault}
+      MYSQL_USER: ${MYSQL_USER:-stegano}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-stegano123}
+    volumes:
+      - ./static:/app/static
+      - ./templates:/app/templates
+      - ./logs:/app/logs
+      - ./tmp:/app/tmp
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - stegano-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
 volumes:
   mysql-data:
 networks:
