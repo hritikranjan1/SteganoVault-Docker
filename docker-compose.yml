@@ -18,8 +18,23 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
-      timeout: 5s
       retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: steganovault-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword123}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - stegano-net
 
   web:
     build:
@@ -32,7 +47,6 @@ services:
     environment:
       SECRET_KEY: ${SECRET_KEY:-change-me}
       MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
       MYSQL_DATABASE: ${MYSQL_DATABASE:-steganovault}
       MYSQL_USER: ${MYSQL_USER:-stegano}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-stegano123}
@@ -49,9 +63,7 @@ services:
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
       interval: 30s
-      timeout: 10s
       retries: 3
-      start_period: 60s
 
 volumes:
   mysql-data:
