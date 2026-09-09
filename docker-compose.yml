@@ -37,9 +37,7 @@ services:
       - stegano-net
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: steganovault-web
     restart: unless-stopped
     expose:
@@ -62,6 +60,25 @@ services:
       - stegano-net
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      retries: 3
+
+  nginx:
+    image: nginx:alpine
+    container_name: steganovault-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - stegano-net
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
       interval: 30s
       retries: 3
 
