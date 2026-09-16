@@ -20,3 +20,13 @@ Multi-container setup:
 - `POST /auth/register` - Register user
 - `POST /auth/login` - Login
 - `GET /api/reviews` - Fetch reviews
+
+## Usage
+
+1. Upload a file (image, PDF, DOCX, audio, or video)
+2. Enter your secret message
+3. Optionally add a password
+4. Click Encode
+5. Download the encoded file
+
+To decode, upload an encoded file and click Decode.
