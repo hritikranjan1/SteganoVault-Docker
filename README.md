@@ -30,3 +30,14 @@ Multi-container setup:
 5. Download the encoded file
 
 To decode, upload an encoded file and click Decode.
+
+## Features
+
+- Multi-format steganography (images, text, PDF, DOCX, audio, video)
+- Optional password protection with BCrypt
+- 11 themes (Dark, Light, Cyberpunk, etc.)
+- Stealth Score gamification with badges
+- User authentication with OTP verification
+- Reviews and testimonials
+- Docker Compose deployment
+- Health checks for all services
