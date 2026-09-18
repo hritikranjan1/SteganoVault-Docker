@@ -41,3 +41,21 @@ To decode, upload an encoded file and click Decode.
 - Reviews and testimonials
 - Docker Compose deployment
 - Health checks for all services
+
+## Tech Stack
+
+**Backend:**
+- Python 3.10, Flask, Gunicorn
+- MySQL 8.0
+- Stegano (LSB steganography)
+- PyPDF2, python-docx, pydub, OpenCV
+
+**Frontend:**
+- HTML5, CSS3, JavaScript (ES6+)
+- Tailwind CSS
+- Font Awesome
+
+**DevOps:**
+- Docker, Docker Compose
+- Nginx (reverse proxy)
+- phpMyAdmin
