@@ -59,3 +59,7 @@ To decode, upload an encoded file and click Decode.
 - Docker, Docker Compose
 - Nginx (reverse proxy)
 - phpMyAdmin
+
+## License
+
+MIT License - see LICENSE file for details.
