@@ -63,3 +63,7 @@ To decode, upload an encoded file and click Decode.
 ## License
 
 MIT License - see LICENSE file for details.
+
+## Contributing
+
+Contributions welcome! Please open an issue or submit a PR.
