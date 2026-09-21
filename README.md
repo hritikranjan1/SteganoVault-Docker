@@ -67,3 +67,9 @@ MIT License - see LICENSE file for details.
 ## Contributing
 
 Contributions welcome! Please open an issue or submit a PR.
+
+## Contact
+
+Hritik Ranjan
+- GitHub: [@hritikranjan1](https://github.com/hritikranjan1)
+- LinkedIn: [hritikranjan1](https://www.linkedin.com/in/hritikranjan1/)
