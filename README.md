@@ -25,6 +25,32 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 
 ---
 
+## 📚 Documentation
+
+This project has **five comprehensive documentation files**. Each covers a specific aspect — from beginner setup to architectural deep dives.
+
+| Document | Description | Best For |
+|----------|-------------|----------|
+| 📘 **[USER_GUIDE.md](USER_GUIDE.md)** | Complete end-to-end setup guide from scratch. Covers Docker installation, environment configuration, testing features, troubleshooting, and cleanup. | **Beginners** — first-time setup |
+| 🏗️ **[ARCHITECTURE.md](ARCHITECTURE.md)** | Deep dive into system design, design decisions, trade-offs, scalability roadmap, and lessons learned. | **Senior devs** — understanding design |
+| 🔄 **[WORKFLOW.md](WORKFLOW.md)** | Complete container workflow — startup sequence, request lifecycle (encode/decode), database flow, and file processing pipeline. | **Anyone** — how it all connects |
+| 🐛 **[ISSUES.md](ISSUES.md)** | Real issues faced during development and deployment, with root cause analysis and fixes. 10 documented problems. | **Debugging** — common pitfalls |
+| 💼 **[INTERVIEW_QA.md](INTERVIEW_QA.md)** | 40+ interview questions and answers based on this project. Covers Docker, Flask, MySQL, Nginx, and System Design. | **Interview prep** — tech discussions |
+
+### 🎯 Quick Navigation
+
+**New to the project?** Start here → [USER_GUIDE.md](USER_GUIDE.md)
+
+**Want to understand the design?** → [ARCHITECTURE.md](ARCHITECTURE.md)
+
+**Hitting an error?** → [ISSUES.md](ISSUES.md)
+
+**Preparing for interviews?** → [INTERVIEW_QA.md](INTERVIEW_QA.md)
+
+**Curious how data flows?** → [WORKFLOW.md](WORKFLOW.md)
+
+---
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
@@ -117,6 +143,7 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 
 ### 🖥️ User Interface
 
+#### Main Interface
 ![Main UI](static/screenshots/ui1.png)
 *Clean, modern interface with all tools in one place*
 
@@ -230,6 +257,8 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 └─────────────────────────────────────────────────────────────┘
 ```
 
+> 📖 **For detailed architecture** — see [ARCHITECTURE.md](ARCHITECTURE.md)
+
 ### Container Overview
 
 | Container | Image | Port | Purpose |
@@ -238,6 +267,8 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 | `steganovault-mysql` | `mysql:8.0` | 3306 | Database |
 | `steganovault-nginx` | `nginx:alpine` | 80 | Reverse proxy |
 | `steganovault-phpmyadmin` | `phpmyadmin:latest` | 8081 | DB admin UI |
+
+> 📖 **For complete workflow** — see [WORKFLOW.md](WORKFLOW.md)
 
 ---
 
@@ -248,6 +279,8 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 - **Docker** 20.10+ ([Install](https://docs.docker.com/get-docker/))
 - **Docker Compose** v2+ (usually bundled with Docker)
 - **Git** ([Install](https://git-scm.com/))
+
+> 📖 **For detailed setup instructions** — see [USER_GUIDE.md](USER_GUIDE.md)
 
 ### Step 1: Clone the Repository
 
@@ -337,6 +370,12 @@ SteganoVault/
 ├── .gitignore                  # Git exclusions
 ├── LICENSE                     # MIT License
 ├── README.md                   # This file
+│
+├── USER_GUIDE.md               # 📘 Beginner setup guide
+├── ARCHITECTURE.md             # 🏗️ System design deep dive
+├── WORKFLOW.md                 # 🔄 Complete workflow documentation
+├── ISSUES.md                   # 🐛 Problems and solutions log
+├── INTERVIEW_QA.md             # 💼 Interview preparation guide
 │
 ├── init-db/
 │   └── init.sql                # Auto-run schema + seed data
@@ -437,6 +476,8 @@ SteganoVault/
 
 If a password was used, share it **separately** (via secure chat).
 
+> 📖 **For step-by-step testing** — see [USER_GUIDE.md](USER_GUIDE.md)
+
 ---
 
 ## 🎨 Theme System
@@ -519,17 +560,6 @@ sudo lsof -i :80
 # Then access via http://localhost:8080
 ```
 
-### MySQL Fails to Start
-
-```bash
-# Check MySQL logs
-docker compose logs mysql
-
-# Reset MySQL volume (WARNING: deletes all data)
-docker compose down -v
-docker compose up -d
-```
-
 ### Frontend Not Loading (Cache Issue)
 
 **Fix 1 — Hard refresh:**
@@ -557,15 +587,7 @@ docker compose ps web
 # Then retry
 ```
 
-### Health Check Failing
-
-```bash
-# Manually test
-curl http://localhost/health
-
-# If failing, check web logs
-docker compose logs web --tail=50
-```
+> 📖 **For more troubleshooting** — see [ISSUES.md](ISSUES.md)
 
 ---
 
@@ -665,5 +687,7 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 ### ⭐ If you found this project useful, please give it a star! ⭐
 
 **Built with ❤️ using Flask, Docker, MySQL, and Nginx**
+
+📘 [User Guide](USER_GUIDE.md) • 🏗️ [Architecture](ARCHITECTURE.md) • 🔄 [Workflow](WORKFLOW.md) • 🐛 [Issues](ISSUES.md) • 💼 [Interview Q&A](INTERVIEW_QA.md)
 
 </div>
