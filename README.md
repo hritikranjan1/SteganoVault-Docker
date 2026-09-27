@@ -1,8 +1,3 @@
-# 📄 Complete `README.md` - SteganoVault
-
-Bhai, ye complete professional README hai. Bas copy-paste kar `README.md` me.
-
----
 
 ```markdown
 # 🔐 SteganoVault - Secure Steganography Tool
@@ -663,5 +658,3 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 </div>
 ```
-
----
