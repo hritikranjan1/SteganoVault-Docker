@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![SteganoVault Banner](https://github.com/hritikranjan1/Imagehosting/blob/main/ChatGPT%20Image%20Mar%2031,%202025,%2011_47_08%20AM.png?raw=true)
-
 **Hide secrets in plain sight. Encode messages in images, documents, audio, and video files.**
 
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -11,6 +9,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)](https://nginx.org/)
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
 [Features](#-features) • [Tech Stack](#-technology-stack) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [API](#-api-endpoints) • [Screenshots](#-screenshots)
 
@@ -118,7 +117,6 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 
 ### 🖥️ User Interface
 
-#### Main Interface
 ![Main UI](static/screenshots/ui1.png)
 *Clean, modern interface with all tools in one place*
 
@@ -162,11 +160,25 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 
 ### 🐳 Docker Infrastructure
 
-![Docker Compose Up](static/screenshots/dockercompose.png)
+![Docker Compose Up](static/screenshots/Docker-compose.png)
 *Building and starting all containers*
+
+![Docker Compose Build](static/screenshots/dockercompose.png)
+*Full stack deployment progress*
 
 ![Docker Compose PS](static/screenshots/docker-compose-ps.png)
 *All 4 containers running with health checks*
+
+### 🐛 Issue Tracking & Resolution
+
+![Issue 1](static/screenshots/issue1.png)
+*Initial issue encountered during deployment*
+
+![Issue 1 Fixed](static/screenshots/issue1-fixed.png)
+*Issue 1 successfully resolved*
+
+![Issue 2](static/screenshots/issue2.png)
+*Secondary issue during configuration*
 
 ### ✅ Final Verification
 
@@ -224,7 +236,7 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 |-----------|-------|------|---------|
 | `steganovault-web` | Custom (Dockerfile) | 5000 (internal) | Flask app with Gunicorn |
 | `steganovault-mysql` | `mysql:8.0` | 3306 | Database |
-| `steganovault-nginx` | `nginx:alpine` | 80, 443 | Reverse proxy |
+| `steganovault-nginx` | `nginx:alpine` | 80 | Reverse proxy |
 | `steganovault-phpmyadmin` | `phpmyadmin:latest` | 8081 | DB admin UI |
 
 ---
@@ -240,8 +252,8 @@ Whether you're a security enthusiast, a developer learning Docker, or someone cu
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/hritikranjan1/SteganoVault.git
-cd SteganoVault
+git clone https://github.com/hritikranjan1/SteganoVault-Docker.git
+cd SteganoVault-Docker
 ```
 
 ### Step 2: Configure Environment
@@ -318,11 +330,12 @@ steganovault-web           Up (healthy)
 SteganoVault/
 ├── app.py                      # Flask application
 ├── requirements.txt            # Python dependencies
-├── Dockerfile                  # Multi-stage build
+├── Dockerfile                  # Container build
 ├── docker-compose.yml          # Multi-container orchestration
 ├── .env.example                # Environment template
 ├── .dockerignore               # Docker build exclusions
 ├── .gitignore                  # Git exclusions
+├── LICENSE                     # MIT License
 ├── README.md                   # This file
 │
 ├── init-db/
@@ -644,7 +657,6 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 - 🐙 GitHub: [@hritikranjan1](https://github.com/hritikranjan1)
 - 💼 LinkedIn: [hritikranjan1](https://www.linkedin.com/in/hritikranjan1/)
-- 📧 Email: your-email@example.com
 
 ---
 
@@ -655,4 +667,3 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 **Built with ❤️ using Flask, Docker, MySQL, and Nginx**
 
 </div>
-
