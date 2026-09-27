@@ -2,38 +2,465 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>SteganoVault</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteganoVault - Secret Hiding Hub</title>
+    <link rel="icon" type="image/png" href="https://github.com/hritikranjan1/Imagehosting/blob/main/ChatGPT%20Image%20Mar%2031,%202025,%2011_47_08%20AM.png?raw=true">
+    
+    <!-- External CDN Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/@motionone/dom"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- SparkAgent AI Chatbot -->
+    <script type="module" src="https://www.sparkagentai.com/spark-agent-ai-chat-widget.js" chatbotId="03ecc41c-f08a-4d4f-a672-b05ae4225e38" chatbotUrl="https://chatbot.sparkagentai.com"></script>
 </head>
-<body>
-    <nav><select id="theme-toggle"></select><button id="authBtn">Login</button></nav>
-    <div id="encode-decode">
-        <h2>Encode / Decode</h2>
-        <div id="drop-area">
-            <input type="file" id="fileInput" class="hidden">
-            <button>Select File</button>
-            <div id="fileName"></div>
+
+<body class="flex flex-col items-center justify-between">
+    <!-- Motion Background Elements -->
+    <div class="motion-background"></div>
+    <div id="cyberpunkGrid" class="cyberpunk-grid hidden"></div>
+    <div id="retroScanlines" class="retro-scanlines hidden"></div>
+    <div id="neonParticles" class="neon-particles hidden"></div>
+    <div id="vaporwaveWaves" class="vaporwave-waves hidden"></div>
+    <div id="codeRain" class="code-rain hidden"></div>
+    <div id="cosmicStars" class="cosmic-stars hidden"></div>
+    <div id="glitchEffect" class="glitch-effect hidden"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="w-full flex flex-col sm:flex-row justify-between items-center mb-4 mt-2 px-2 sm:px-4">
+        <div class="flex flex-col sm:flex-row items-center gap-2 mb-2 sm:mb-0">
+            <select id="theme-toggle" class="bg-[var(--button-bg)] text-white px-2 py-1 rounded-lg hover:bg-[var(--hover-bg)] transition-colors text-sm sm:text-base w-full sm:w-auto">
+                <option value="dark">🌙 Dark</option>
+                <option value="light">☀️ Light</option>
+                <option value="cyberpunk">💾 Cyberpunk</option>
+                <option value="retro-spy">🕵️ Retro Spy</option>
+                <option value="neon-noir">🌌 Neon Noir</option>
+                <option value="vaporwave">📼 Vaporwave</option>
+                <option value="steampunk">⚙️ Steampunk</option>
+                <option value="hacker-terminal">💻 Hacker Terminal</option>
+                <option value="cosmic-galaxy">🌠 Cosmic Galaxy</option>
+                <option value="minimal-zen">🧘 Minimal Zen</option>
+                <option value="glitchcore">📺 Glitchcore</option>
+            </select>
         </div>
-        <div id="previewBefore" class="hidden"><p>Before:</p><img class="max-h-40"></div>
-        <div id="previewAfter" class="hidden"><p>After:</p><img class="max-h-40"></div>
-        <input type="text" id="messageInput">
-        <input type="password" id="passwordInput">
-        <button id="encodeBtnReady">Encode</button>
-        <button id="decodeBtnReady">Decode</button>
-        <div id="output"></div>
-        <div id="decodedOutputContainer" class="hidden"><div id="decodedOutput"></div></div>
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-3">
+            <a href="#how-it-works" class="bg-[var(--button-bg)] text-white px-2 py-1 rounded-lg hover:bg-[var(--hover-bg)] transition-colors text-sm sm:text-base glow-effect">How It Works</a>
+            <a href="#fun-activities" class="bg-[var(--button-bg)] text-white px-2 py-1 rounded-lg hover:bg-[var(--hover-bg)] transition-colors text-sm sm:text-base glow-effect">Fun Activities</a>
+            <a href="#contributors" class="bg-[var(--button-bg)] text-white px-2 py-1 rounded-lg hover:bg-[var(--hover-bg)] transition-colors text-sm sm:text-base glow-effect">Contributors</a>
+            <button id="authBtn" class="bg-[var(--button-bg)] text-white px-2 py-1 rounded-lg hover:bg-[var(--hover-bg)] transition-colors text-sm sm:text-base glow-effect">
+                <i class="fas fa-user"></i> <span id="authStatus">Login</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Stealth Score -->
+    <div class="stealth-score-container">
+        <div class="stealth-score">Stealth Score: <span id="stealth-score">0</span></div>
+        <button id="stealthScoreInfoBtn" class="text-[var(--text-color)] hover:text-[var(--hover-bg)] text-lg tooltip">
+            ℹ️
+            <span class="tooltiptext">Track your spy skills with points!</span>
+        </button>
     </div>
+
+    <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 motion-fade glow-effect text-center" id="steganovault">🔐 SteganoVault</h1>
+    <p class="text-center mb-6 text-sm sm:text-base md:text-lg px-2">Steganography Tool - Hide and Extract Secret Messages in Files (images, text files, PDFs, DOCX files, audio, and video)</p>
+
+    <!-- Tutorial Section -->
+    <div class="w-full max-w-2xl mb-6">
+        <h3 class="text-xl font-semibold mb-2 text-center">Quick Tutorial</h3>
+        <div id="tutorial">
+            <div class="tutorial-step">1. Select a file to encode or decode.</div>
+            <div class="tutorial-step">2. Enter your secret message and optional password.</div>
+            <div class="tutorial-step">3. Click Encode to hide your message or Decode to reveal it.</div>
+        </div>
+        <button id="nextTutorial" class="bg-[var(--button-bg)] text-white px-4 py-2 rounded mt-2 motion-button glow-effect mx-auto block">Next</button>
+    </div>
+
+    <!-- Main App Box -->
+    <div class="bg-[var(--card-bg)] shadow-lg rounded-lg p-4 sm:p-6 w-full max-w-lg sm:max-w-2xl motion-fade mb-8 glow-effect" id="encode-decode">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold flex-1 text-center">Encode / Decode</h2>
+            <button id="infoBtn" class="text-[var(--text-color)] hover:text-[var(--hover-bg)] text-lg sm:text-xl tooltip">
+                ℹ️
+                <span class="tooltiptext">Learn how to share your encoded files!</span>
+            </button>
+        </div>
+
+        <!-- Drag & Drop File Upload -->
+        <div id="drop-area" class="text-center motion-fade">
+            <p class="mb-3 text-sm sm:text-lg md:text-xl">📂 Drag & Drop your file here</p>
+            <input type="file" id="fileInput" class="hidden" accept=".png,.jpg,.jpeg,.txt,.mp3,.wav,.pdf,.docx,.mp4,.avi,.mov">
+            <button onclick="document.getElementById('fileInput').click()" class="bg-[var(--button-bg)] text-white px-4 py-2 sm:px-6 sm:py-4 rounded hover:bg-[var(--hover-bg)] transition-colors motion-button text-sm sm:text-lg md:text-xl glow-effect w-full sm:w-auto">
+                Select File
+            </button>
+            <div id="fileName" class="file-name"></div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="flex flex-col sm:flex-row gap-4 mt-4">
+            <div id="previewBefore" class="preview-container flex-1 hidden">
+                <p class="text-center font-semibold mb-2">Before:</p>
+                <img class="mx-auto max-h-40">
+            </div>
+            <div id="previewAfter" class="preview-container flex-1 hidden">
+                <p class="text-center font-semibold mb-2">After:</p>
+                <img class="mx-auto max-h-40">
+            </div>
+        </div>
+
+        <label class="block mt-6 text-sm sm:text-lg md:text-xl">Enter Message:</label>
+        <input type="text" id="messageInput" class="w-full p-2 sm:p-4 border rounded bg-transparent text-sm sm:text-lg md:text-xl" placeholder="Hidden message">
+
+        <label class="block mt-6 text-sm sm:text-lg md:text-xl">Optional Password:</label>
+        <input type="password" id="passwordInput" class="w-full p-2 sm:p-4 border rounded bg-transparent text-sm sm:text-lg md:text-xl" placeholder="Enter password (optional)">
+
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-6">
+            <button id="encodeBtn" class="bg-green-500 text-white px-4 py-2 sm:px-6 sm:py-4 rounded w-full motion-button hover:bg-green-600 text-sm sm:text-lg md:text-xl glow-effect processing-animation hidden">🔒 Encoding...</button>
+            <button id="encodeBtnReady" class="bg-green-500 text-white px-4 py-2 sm:px-6 sm:py-4 rounded w-full motion-button hover:bg-green-600 text-sm sm:text-lg md:text-xl glow-effect">🔒 Encode</button>
+            
+            <button id="decodeBtn" class="bg-red-500 text-white px-4 py-2 sm:px-6 sm:py-4 rounded w-full motion-button hover:bg-red-600 text-sm sm:text-lg md:text-xl glow-effect processing-animation hidden">🔓 Decoding...</button>
+            <button id="decodeBtnReady" class="bg-red-500 text-white px-4 py-2 sm:px-6 sm:py-4 rounded w-full motion-button hover:bg-red-600 text-sm sm:text-lg md:text-xl glow-effect">🔓 Decode</button>
+        </div>
+
+        <div id="output" class="mt-6 text-center text-sm sm:text-lg md:text-xl"></div>
+        <div id="loading" class="spinner hidden"></div>
+        
+        <!-- Decoded Message Container -->
+        <div id="decodedOutputContainer" class="mt-4 hidden">
+            <div class="decoded-message-label">Decoded Message:</div>
+            <div id="decodedOutput" class="decoded-output-container"></div>
+        </div>
+        
+        <div class="badges-container" id="badges"></div>
+        <button id="share-challenge" class="share-challenge hidden">Share Challenge</button>
+        <div class="flex justify-center gap-2 mt-2">
+            <button id="badgesInfoBtn" class="text-[var(--text-color)] hover:text-[var(--hover-bg)] text-lg hidden tooltip">
+                ℹ️
+                <span class="tooltiptext">Earn badges as you gain points!</span>
+            </button>
+            <button id="shareChallengeInfoBtn" class="text-[var(--text-color)] hover:text-[var(--hover-bg)] text-lg hidden tooltip">
+                ℹ️
+                <span class="tooltiptext">Challenge friends to decode your secret!</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- User Reviews Section -->
+    <div class="w-full max-w-2xl mb-6">
+        <h3 class="text-xl font-semibold mb-3 text-center">
+            Share Your Experience
+            <button id="reviewInfoBtn" class="text-[var(--text-color)] hover:text-[var(--hover-bg)] text-lg tooltip ml-2">
+                ℹ️
+                <span class="tooltiptext">Share your experience with SteganoVault</span>
+            </button>
+        </h3>
+        
+        <!-- Review Form (always visible) -->
+        <div id="reviewForm" class="bg-[var(--card-bg)] p-4 rounded-lg mb-4 glow-effect">
+            <form id="reviewFormElement" class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label for="reviewName" class="block text-sm">Name:</label>
+                        <input type="text" id="reviewName" class="w-full p-2 border rounded bg-transparent text-sm" placeholder="Your name" required>
+                    </div>
+                    <div>
+                        <label for="reviewRating" class="block text-sm">Rating:</label>
+                        <select id="reviewRating" class="w-full p-2 border rounded bg-transparent text-sm" required>
+                            <option value="">Select</option>
+                            <option value="5">★★★★★</option>
+                            <option value="4">★★★★</option>
+                            <option value="3">★★★</option>
+                            <option value="2">★★</option>
+                            <option value="1">★</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="reviewText" class="block text-sm">Review:</label>
+                    <textarea id="reviewText" class="w-full p-2 border rounded bg-transparent text-sm" rows="3" placeholder="Your feedback..." required></textarea>
+                </div>
+                <button type="submit" class="bg-[var(--button-bg)] text-white px-4 py-2 rounded w-full motion-button glow-effect text-sm">Submit</button>
+            </form>
+            <div id="reviewConfirmation" class="review-confirmation hidden"></div>
+        </div>
+        
+        <!-- User Reviews Display -->
+        <div id="userReviewsContainer" class="space-y-4">
+            <div class="text-center py-4">
+                <div class="spinner"></div>
+                <p>Loading reviews...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="w-full max-w-2xl mb-6">
+        <div class="flex items-center justify-center gap-2">
+            <h3 class="text-xl font-semibold mb-2 text-center">What Agents Say</h3>
+        </div>
+        <div class="testimonial-carousel-container relative overflow-hidden h-40">
+            <div class="testimonial-carousel" id="dynamicTestimonials">
+                <!-- Testimonials loaded dynamically -->
+                <div class="testimonial-item p-4">
+                    <div class="testimonial bg-[var(--card-bg)] p-4 rounded-lg glow-effect">
+                        <div class="rating-stars mb-2">★★★★★</div>
+                        <p class="italic">"SteganoVault made hiding messages so fun and easy!"</p>
+                        <p class="text-right font-semibold mt-2">- Agent X</p>
+                    </div>
+                </div>
+                <div class="testimonial-item p-4">
+                    <div class="testimonial bg-[var(--card-bg)] p-4 rounded-lg glow-effect">
+                        <div class="rating-stars mb-2">★★★★★</div>
+                        <p class="italic">"A must-have tool for any spy enthusiast!"</p>
+                        <p class="text-right font-semibold mt-2">- Codebreaker Y</p>
+                    </div>
+                </div>
+                <div class="testimonial-item p-4">
+                    <div class="testimonial bg-[var(--card-bg)] p-4 rounded-lg glow-effect">
+                        <div class="rating-stars mb-2">★★★★</div>
+                        <p class="italic">"The perfect balance of security and usability."</p>
+                        <p class="text-right font-semibold mt-2">- Security Expert Z</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Assurance -->
+    <div class="w-full max-w-2xl mb-6 text-center">
+        <p class="text-sm sm:text-base bg-[var(--card-bg)] p-4 rounded glow-effect">
+            🔒 <strong>Privacy Assurance:</strong> 
+            <span id="privacyText">We don't store your files or messages—everything is processed in real-time and deleted after use.</span>
+            <button id="learnMorePrivacy" class="text-blue-400 hover:text-blue-300 ml-1">Learn more</button>
+        </p>
+    </div>
+
+    <!-- How It Works Section -->
+    <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 motion-fade glow-effect text-center" id="how-it-works">How It Works</h3>
+    <div class="grid-section">
+        <div class="grid-card motion-fade glow-effect">
+            <h3>What is Steganography?</h3>
+            <p>Steganography is the art and science of hiding secret information inside a non-suspicious file, message, or medium. It ensures that the hidden data remains undetectable to anyone who is not aware of its presence.</p>
+            <h3>🔹 How It Works?</h3>
+            <p>Unlike encryption, which scrambles a message to make it unreadable, steganography hides the message <strong>within another file</strong> (such as an image, audio, video, or text file) so that no one suspects its existence.</p>
+            <h3>🔹 Common Techniques</h3>
+            <ul>
+                <li><b>LSB (Least Significant Bit) Steganography:</b> Hides data in the least significant bits of an image or audio file.</li>
+                <li><b>Image Steganography:</b> Modifies pixels of an image to store secret data.</li>
+                <li><b>Audio Steganography:</b> Embeds messages within sound waves.</li>
+                <li><b>Text Steganography:</b> Uses invisible characters (spaces, Unicode characters) to hide information in text.</li>
+                <li><b>Video Steganography:</b> Stores secret data in video frames.</li>
+            </ul>
+            <h3>🔹 Applications</h3>
+            <ul>
+                <li>🔐 <b>Secure Communication:</b> Hiding confidential messages in media files.</li>
+                <li>🕵️ <b>Cybersecurity:</b> Protecting sensitive data from hackers.</li>
+                <li>📡 <b>Covert Operations:</b> Used in military and intelligence communication.</li>
+            </ul>
+        </div>
+        <div class="grid-card motion-fade glow-effect">
+            <h3>🛠️ Technical Process</h3>
+            <p>Steganography works by embedding the secret message into the carrier file (e.g., image, audio, video) using techniques like LSB for images or frequency domain manipulation for audio.</p>
+            <h3>🔹 Steps</h3>
+            <ul>
+                <li><b>Input Selection:</b> Choose a carrier file and secret data.</li>
+                <li><b>Data Preprocessing:</b> Optionally encrypt the data and convert it to binary.</li>
+                <li><b>Data Embedding:</b> Hide the message using LSB, Unicode, or metadata.</li>
+                <li><b>Data Extraction:</b> Retrieve the message with the correct method.</li>
+                <li><b>Verification:</b> Use checksums to ensure integrity.</li>
+            </ul>
+        </div>
+        <div class="grid-card motion-fade glow-effect">
+            <h3>🔒 Best Practices</h3>
+            <ul>
+                <li>Use strong passwords for added security.</li>
+                <li>Choose high-quality carrier files.</li>
+                <li>Avoid predictable patterns.</li>
+                <li>Test the file after encoding.</li>
+            </ul>
+            <h3>⚠️ Limitations</h3>
+            <ul>
+                <li>Limited data capacity based on file size.</li>
+                <li>Vulnerable to steganalysis.</li>
+                <li>Sensitive to compression or resizing.</li>
+                <li>Processing time increases with large data.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Fun Activities Section -->
+    <div class="flex items-center justify-center gap-2">
+        <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 motion-fade glow-effect text-center" id="fun-activities">Fun Activities</h3>
+        <button id="funActivitiesInfoBtn" class="text-[var(--text-color)] hover:text-[var(--hover-bg)] text-lg tooltip">
+            ℹ️
+            <span class="tooltiptext">Play games to boost your score!</span>
+        </button>
+    </div>
+    <div class="grid-section">
+        <div class="grid-card motion-fade glow-effect game-container">
+            <h3>🎯 Spy Target Practice</h3>
+            <p>Click the target as many times as you can in 10 seconds!</p>
+            <div id="game-target" class="game-target mx-auto mt-4"></div>
+            <p class="mt-4">Score: <span id="game-score">0</span></p>
+            <button id="start-game" class="bg-[var(--button-bg)] text-white px-4 py-2 rounded mt-4 motion-button glow-effect">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Contributors Section -->
+    <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-6 motion-fade glow-effect text-center" id="contributors">Contributors</h3>
+    <div class="contributors motion-fade show flex flex-wrap justify-center gap-8">
+        <div class="contributor bg-white/10 backdrop-blur-sm p-6 rounded-xl shadow-md border border-gray-200/20 w-64 h-64 flex flex-col items-center justify-between">
+            <img src="https://github.com/hritikranjan1/Imagehosting/blob/main/Hritik-removebg-preview.png?raw=true" 
+                 alt="Hritik Ranjan" 
+                 class="rounded-full shadow-lg w-24 h-24 object-cover border-2 border-white/20">
+            <p class="font-semibold text-lg sm:text-xl">Hritik Ranjan</p>
+            <div class="flex flex-col items-center space-y-1 w-full">
+                <a href="https://github.com/hritikranjan1" target="_blank" class="text-blue-400 hover:text-blue-300 transition-colors text-sm sm:text-base w-full py-1">GitHub</a>
+                <a href="https://www.linkedin.com/in/hritikranjan1/" target="_blank" class="text-blue-400 hover:text-blue-300 transition-colors text-sm sm:text-base w-full py-1">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div class="w-full max-w-md mb-8 mt-8">
+        <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold mb-4 motion-fade glow-effect text-center">Contact Us</h3>
+        <div class="bg-[var(--card-bg)] shadow-lg rounded-lg p-3 motion-fade glow-effect">
+            <form id="contactForm" class="space-y-2">
+                <div>
+                    <label for="name" class="block text-sm">Name:</label>
+                    <input type="text" id="name" name="name" class="w-full p-1 border rounded bg-transparent text-sm" placeholder="Your Name" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-sm">Email:</label>
+                    <input type="email" id="email" name="email" class="w-full p-1 border rounded bg-transparent text-sm" placeholder="Your Email" required>
+                </div>
+                <div>
+                    <label for="message" class="block text-sm">Message:</label>
+                    <textarea id="message" name="message" class="w-full p-1 border rounded bg-transparent text-sm" rows="2" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" id="sendMessageBtn" class="bg-[var(--button-bg)] text-white px-3 py-1 rounded w-full motion-button glow-effect text-sm">Send Message</button>
+            </form>
+            <div id="confirmationMessage" class="text-center mt-2 text-green-500 confirmation-message hidden text-sm">✅ Message sent successfully! We'll get back to you soon.</div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer glow-effect">
+        <div class="important-note">
+            <h3 class="text-lg sm:text-xl font-semibold">Important Note</h3>
+            <p class="text-sm sm:text-base">This tool is intended for educational and entertainment purposes only. It is not a secure encryption method and should not be used for sensitive or confidential information. For secure communication, consider using proper encryption tools.</p>
+        </div>
+        <p class="text-sm sm:text-lg mt-4">© 2025 SteganoVault. Some rights reserved. Built with ❤️</p>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MODALS                                       -->
+    <!-- ============================================ -->
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h3 class="text-lg sm:text-xl font-semibold mb-4">How to Share Your Encoded File</h3>
+            <p class="text-sm sm:text-base">Share the downloaded encoded file with your friend via a method that preserves the file as-is, such as:</p>
+            <ul class="list-disc ml-5 mt-2 mb-4 text-sm sm:text-base">
+                <li><b>Google Drive:</b> Upload the file and share the link.</li>
+                <li><b>Email:</b> Attach the file to an email.</li>
+            </ul>
+            <p class="text-sm sm:text-base"><b>Important:</b> Avoid compression-based apps like WhatsApp, as they may alter the file and break the hidden message.</p>
+            <p class="text-sm sm:text-base mt-2">If you used a password, share it with your friend separately (e.g., via a secure chat).</p>
+        </div>
+    </div>
+
+    <!-- Stealth Score Modal -->
+    <div id="stealthScoreModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h3 class="text-lg sm:text-xl font-semibold mb-4">Stealth Score</h3>
+            <p class="text-sm sm:text-base"><b>What is it?</b> The Stealth Score is a fun way to track your progress as a secret agent using SteganoVault. It increases as you encode, decode, or play games.</p>
+            <p class="text-sm sm:text-base mt-2"><b>How it works:</b></p>
+            <ul class="list-disc ml-5 mt-2 mb-4 text-sm sm:text-base">
+                <li>Encoding a file: +10 points</li>
+                <li>Decoding a file: +15 points</li>
+                <li>Clicking the target in Spy Target Practice: +5 points per click</li>
+            </ul>
+            <p class="text-sm sm:text-base"><b>Details:</b> Your score reflects your skill level. Higher scores unlock badges like Rookie Spy, Codebreaker, and Shadow Agent!</p>
+        </div>
+    </div>
+
+    <!-- Badges Modal -->
+    <div id="badgesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h3 class="text-lg sm:text-xl font-semibold mb-4">Rookie Spy & Codebreaker Badges</h3>
+            <p class="text-sm sm:text-base"><b>What are they?</b> Badges are achievements you earn based on your Stealth Score, showing off your steganography prowess.</p>
+            <p class="text-sm sm:text-base mt-2"><b>How they work:</b></p>
+            <ul class="list-disc ml-5 mt-2 mb-4 text-sm sm:text-base">
+                <li><b>Rookie Spy:</b> Earned at 10 points. You're just starting your spy journey!</li>
+                <li><b>Codebreaker:</b> Earned at 50 points. You've cracked some tough secrets!</li>
+                <li><b>Shadow Agent:</b> Earned at 100 points. You're a master of stealth!</li>
+            </ul>
+            <p class="text-sm sm:text-base"><b>Details:</b> Badges appear below the encode/decode section as you reach milestones. Collect them all to become a legendary agent!</p>
+        </div>
+    </div>
+
+    <!-- Share Challenge Modal -->
+    <div id="shareChallengeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h3 class="text-lg sm:text-xl font-semibold mb-4">Share Challenge</h3>
+            <p class="text-sm sm:text-base"><b>What is it?</b> Share Challenge lets you send your encoded file to friends, challenging them to decode your secret message.</p>
+            <p class="text-sm sm:text-base mt-2"><b>How it works:</b></p>
+            <ul class="list-disc ml-5 mt-2 mb-4 text-sm sm:text-base">
+                <li>After encoding, click "Share Challenge" to generate a shareable link or text.</li>
+                <li>On supported devices, it uses the native share feature; otherwise, it provides a text prompt to copy.</li>
+                <li>Your friend downloads the file and uses SteganoVault to decode it.</li>
+            </ul>
+            <p class="text-sm sm:text-base"><b>Details:</b> Make sure to share the password separately if you used one. Avoid platforms that compress files (e.g., WhatsApp) to keep the message intact.</p>
+        </div>
+    </div>
+
+    <!-- Fun Activities Modal -->
+    <div id="funActivitiesModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <h3 class="text-lg sm:text-xl font-semibold mb-4">Fun Activities</h3>
+            <p class="text-sm sm:text-base"><b>What is it?</b> Fun Activities include interactive games to enhance your SteganoVault experience, like Spy Target Practice.</p>
+            <p class="text-sm sm:text-base mt-2"><b>How it works:</b></p>
+            <ul class="list-disc ml-5 mt-2 mb-4 text-sm sm:text-base">
+                <li><b>Spy Target Practice:</b> Click the moving target as many times as possible in 10 seconds.</li>
+                <li>Each click earns 5 Stealth Score points.</li>
+                <li>The game resets after 10 seconds, showing your final score.</li>
+            </ul>
+            <p class="text-sm sm:text-base"><b>Details:</b> It's a playful way to test your reflexes and boost your score. More activities may be added in the future!</p>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <div id="authModalContent">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <div id="resetPasswordContent">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
-<!-- Stealth Score Section -->
-<!-- Review Form Section -->
-<!-- Testimonials Carousel -->
-<!-- How It Works Section -->
-<!-- Fun Activities: Spy Target Practice -->
-<!-- Contributors Section -->
-<!-- Contact Form with EmailJS -->
-<!-- Info Modals -->
-<!-- Auth Modal -->
-<!-- Footer -->
