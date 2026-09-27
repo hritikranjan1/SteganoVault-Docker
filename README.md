@@ -1,5 +1,3 @@
-
-```markdown
 # 🔐 SteganoVault - Secure Steganography Tool
 
 <div align="center">
@@ -657,4 +655,4 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 **Built with ❤️ using Flask, Docker, MySQL, and Nginx**
 
 </div>
-```
+
